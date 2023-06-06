@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <el-row class="tac">
-      <el-col :span="12">
+      <el-col>
         <el-menu
           default-active="2"
           class="el-menu-vertical-demo"
@@ -21,37 +21,31 @@
               <i class="el-icon-notebook-2" style="color: #fff"></i>
               <span>{{ item }}</span>
             </template>
-            <el-menu-item v-for="select in routerList" :index="select.path" :key="select.path" router="true" text-color="#513413"
-            >{{ select.meta.title }}</el-menu-item>
+            <el-menu-item
+              v-for="select in routerList"
+              :index="select.path"
+              :key="select.path"
+              router="true"
+              text-color="#513413"
+              >{{ select.meta.title }}</el-menu-item
+            >
           </el-submenu>
         </el-menu>
       </el-col>
     </el-row>
-    <el-table :data="pageData" style="width: 100%">
-      <el-table-column align="center" prop="date" label="日期" width="180">
-        <el-table-column
-          sortable
-          align="center"
-          prop="date"
-          label="日期"
-          width="180"
-        >
+    <el-table :data="pageData">
+      <el-table-column align="center" prop="date" label="日期">
+        <el-table-column sortable align="center" prop="date" label="日期">
         </el-table-column>
-        <el-table-column align="center" prop="date" label="日期" width="180">
-          <el-table-column align="center" prop="name" label="名字" width="180">
+        <el-table-column align="center" prop="date" label="日期">
+          <el-table-column align="center" prop="name" label="名字">
           </el-table-column>
-          <el-table-column
-            align="center"
-            prop="address"
-            label="地址"
-            width="180"
-          >
+          <el-table-column align="center" prop="address" label="地址">
           </el-table-column>
         </el-table-column>
       </el-table-column>
     </el-table>
     <div class="block">
-      <span class="demonstration">直接前往</span>
       <el-pagination
         :current-page.sync="currentPage"
         background
@@ -62,17 +56,28 @@
         @current-change="flip"
       />
     </div>
-    <button @click="handle">cookie</button>
-    <div>{{ getter }}</div>
-    <div>{{ cok }}</div>
+    <div>
+      <el-input
+        v-model="username"
+        placeholder="请输入用户名"
+        style="width: 250px"
+      ></el-input><br>
+      <el-input
+        v-model="password"
+        placeholder="请输入密码"
+        style="width: 250px"
+      ></el-input><br>
+      <el-button type="primary" @click="login">登陆</el-button>
+      <el-button type="primary" @click="exit">退出</el-button>
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 // import Cookies from 'js-cookie'
-import { Base64 } from 'js-base64'
 import { mapGetters } from 'vuex'
+import Cookies from 'js-cookie'
 export default {
   name: 'HomeView',
   components: {},
@@ -82,8 +87,6 @@ export default {
         tilte: ['全国林业计财报表', '提质增效', '其它'],
         secendLevel: ['干鲜果生产情况', '农林产值情况', '收购销售情况']
       },
-      cok: '',
-      vx: '',
       total: null,
       pageSize: 3,
       tableData: [
@@ -126,7 +129,9 @@ export default {
           component: () => import('../views/fruit'),
           meta: { title: '干鲜果' }
         }
-      ]
+      ],
+      username: '',
+      password: ''
     }
   },
   computed: {
@@ -142,11 +147,24 @@ export default {
     // this.routerList.push(routes)
   },
   methods: {
-    handle () {
-      this.cok = Base64.encode('chenzihan')
-      this.$store.commit('add')
-      console.log(Base64.decode(this.cok))
-      console.log(this.$route.query)
+    login () {
+      const params = {
+        username: this.username,
+        password: this.password
+      }
+      this.$api.post('/api/login', params).then((res) => {
+        const data = res.data
+        Cookies.set('sys_token', data.token_type + '' + data.access_token, { expires: new Date(new Date().getTime() + data.expires_in * 1000) })
+        Cookies.set('sys_refresh_token', data.refresh_token, { expires: new Date(new Date().getTime() + 7 * 24 * 3600 * 1000) })
+        this.$notify({
+          title: '登陆成功',
+          type: 'success'
+        })
+      })
+    },
+    exit () {
+      Cookies.set('sys_token', '')
+      Cookies.set('sys_refresh_token', '')
     },
     flip (e) {
       // console.log(e)
@@ -170,8 +188,8 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-a {
-  text-decoration: none;
+<style lang="scss" scoped>
+.block {
+  margin: 50px 0;
 }
 </style>

@@ -11,6 +11,21 @@ const routes = [
     component: HomeView
   },
   {
+    path: '/mini-ol',
+    component: () => import('../views/openLayers/mini-ol'),
+    meta: { title: 'mini-OL' }
+  },
+  {
+    path: '/simpleOL',
+    component: () => import('../views/openLayers/simple'),
+    meta: { title: 'OL地图' }
+  },
+  {
+    path: '/mapBlock',
+    component: () => import('../views/openLayers/mapBlock'),
+    meta: { title: '地图块' }
+  },
+  {
     path: '/ganGuo',
     component: () => import('../views/fruit'),
     meta: { title: '干鲜果' }
@@ -56,7 +71,6 @@ const routes = [
     component: () => import('../views/echarts/scatter')
   }
 ]
-
 const router = new VueRouter({
   routes
 })
