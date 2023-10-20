@@ -20,15 +20,25 @@ export default {
         tooltip: {
           show: true
         },
-        legend: {
-        },
+        color: [
+          new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            { offset: 0, color: '#c23531' },
+            { offset: 0.5, color: '#2f4554' },
+            { offset: 1, color: '#61a0a8' }
+          ]),
+          '#2f4554',
+          '#61a0a8',
+          '#d48265',
+          '#91c7ae'
+        ],
         series: [
           {
             name: '饼图',
             type: 'pie',
             radius: ['50%', '90%'],
             roseType: 'radius', // 通过半径区分数据大小 area(只改变高度) radius(高度和长度都改变)
-            itemStyle: { //  每一项的样式
+            itemStyle: {
+              //  每一项的样式
               borderRadius: 10,
               borderColor: '#fff',
               borderWidth: 5
@@ -43,8 +53,7 @@ export default {
                 fontSize: 40,
                 fontWeight: 'bold'
               },
-              itemStyle: {
-              }
+              itemStyle: {}
             },
             data: [
               { name: '星期一', value: 873 },

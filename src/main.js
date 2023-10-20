@@ -10,10 +10,14 @@ import 'echarts-wordcloud' // 词云插件
 import api from './api/index'
 import Vant from 'vant'
 import 'vant/lib/index.css'
+import 'xe-utils'
+import VXETable from 'vxe-table'
+import 'vxe-table/lib/style.css'
 Vue.prototype.$api = api
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(Vant)
+Vue.use(VXETable)
 Vue.prototype.$echarts = echarts
 new Vue({
   router,

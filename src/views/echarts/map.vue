@@ -22,7 +22,7 @@ export default {
       /** @type EChartsOption */
       const option = {
         title: {
-          text: '甲流感染病例数量',
+          text: '',
           textAlign: 'center',
           top: '5%',
           left: '50%'
@@ -74,7 +74,7 @@ export default {
           roam: true,
           label: {
             normal: {
-              show: false // 地图上是否显示标签
+              show: true // 地图上是否显示标签
             },
             emphasis: {
               show: true
@@ -92,7 +92,33 @@ export default {
             { name: '阿克苏地区', value: 200 },
             { name: '和田地区', value: 400 }
             // 其他省份的数据
-          ]
+          ],
+          regions: [{
+            name: '和田地区',
+            itemStyle: {
+              areaColor: '#706fd3'
+            }
+          }, {
+            name: '昌吉州',
+            itemStyle: {
+              areaColor: '#ffbe76'
+            }
+          }, {
+            name: '克拉玛依市',
+            itemStyle: {
+              areaColor: '#badc58'
+            }
+          }, {
+            name: '阿克苏地区',
+            itemStyle: {
+              areaColor: '#7ed6df'
+            }
+          }, {
+            name: '巴州',
+            itemStyle: {
+              areaColor: '#ff7675'
+            }
+          }]
         },
         series: [
           {
@@ -101,9 +127,9 @@ export default {
             symbolSize: 20,
             itemStyle: {
               shadowBlur: 10, //  光晕大小
-              shadowColor: '#70dfee',
+              shadowColor: '#1b9cfc',
               shadowOffsetY: 5, // Y轴偏移
-              color: '#70dfee'
+              color: '#1b9cfc'
             },
             data: [
               [76.26199734157986, 39.428700358072916],
@@ -131,30 +157,30 @@ export default {
                 curveness: 0.3 // 尾迹线条曲直度
               }
             },
-            ddata: [
+            data: [
               {
                 coords: [
                   [76.26199734157986, 39.428700358072916], [86.58799613489444, 44.14940106720949]
                 ],
-                lineStyle: { color: '#6eeeeb' }
+                lineStyle: { color: '#25d9b4' }
               },
               {
                 coords: [
                   [76.26199734157986, 39.428700358072916], [81.27105726628078, 41.73563883909547]
                 ],
-                lineStyle: { color: '#ee6e71' }
+                lineStyle: { color: '#ee2b2f' }
               },
               {
                 coords: [
                   [76.26199734157986, 39.428700358072916], [81.61600951183706, 36.76365222376395]
                 ],
-                lineStyle: { color: '#f89c49' }
+                lineStyle: { color: '#f88319' }
               },
               {
                 coords: [
                   [76.26199734157986, 39.428700358072916], [79.63708020482717, 37.21940708495087]
                 ],
-                lineStyle: { color: '#b1ee6e' }
+                lineStyle: { color: '#8eee24' }
               }
             ]
           }

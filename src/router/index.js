@@ -26,6 +26,16 @@ const routes = [
     meta: { title: '地图块' }
   },
   {
+    path: '/dynamic',
+    component: () => import('../views/openLayers/dynamic'),
+    meta: { title: '动态要素' }
+  },
+  {
+    path: '/measure',
+    component: () => import('../views/openLayers/measure'),
+    meta: { title: '测量' }
+  },
+  {
     path: '/ganGuo',
     component: () => import('../views/fruit'),
     meta: { title: '干鲜果' }

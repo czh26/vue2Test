@@ -5,7 +5,11 @@
   "scripts": {
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build:test": "vue-cli-service build --mode test",
+    "preview": "node build/index.js --preview",
+    "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml",
+    "lint": "eslint --ext .js,.vue src --fix",
+    "report": "vue-cli-service build --report"
   },
   "dependencies": {
     "axios": "^0.20.0",
@@ -15,7 +19,7 @@
     "element-ui": "^2.15.13",
     "js-base64": "^3.7.5",
     "js-cookie": "^3.0.1",
-    "ol": "^7.3.0",
+    "ol": "^7.4.0",
     "osmtogeojson": "^2.2.12",
     "vant": "^2.8.3",
     "vant-weapp": "^0.5.29",
@@ -23,7 +27,9 @@
     "vue-router": "^3.5.1",
     "vue-virtual-scroll-list": "^2.3.4",
     "vue-virtual-scroller": "^1.1.2",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "vxe-table": "^2.11.0",
+    "xe-utils": "^3.5.11"
   },
   "devDependencies": {
     "@vue/cli-plugin-eslint": "~5.0.0",

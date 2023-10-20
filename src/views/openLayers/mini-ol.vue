@@ -26,9 +26,9 @@
       </el-checkbox-group>
     </div>
     <div id="map"></div>
-    <div id="pentagram">
+    <!-- <div id="pentagram">
       <img src="./头像.jpg" alt="" />
-    </div>
+    </div> -->
     <div id="fruitDialog" v-show="fruitVisiable">
       <div class="title">水果信息<span @click="exitDialog">×</span></div>
       <div class="content">
@@ -229,11 +229,11 @@ export default {
       )
     })
     //  icon图标
-    const pentagram = new Overlay({
-      element: document.getElementById('pentagram'),
-      position: [87.522705, 44.019615]
-    })
-    this.map.addOverlay(pentagram)
+    // const pentagram = new Overlay({
+    //   element: document.getElementById('pentagram'),
+    //   position: [87.522705, 44.019615]
+    // })
+    // this.map.addOverlay(pentagram)
     //  点击选择地图feature
     const select = new Select()
     select.on('select', (e) => {})

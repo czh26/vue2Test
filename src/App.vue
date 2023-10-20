@@ -4,7 +4,9 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/simpleOL">simpleOL</router-link> |
       <router-link to="/mini-ol">mini-ol</router-link> |
-      <router-link to="/mapBlock">map-block</router-link> <br />
+      <router-link to="/mapBlock">map-block</router-link> |
+      <router-link to="/dynamic">dynamic</router-link> |
+      <router-link to="/measure">measure</router-link> <br />
       <router-link to="/map">map</router-link> |
       <router-link to="/bar">bar</router-link> |
       <router-link to="/line">line</router-link> |
