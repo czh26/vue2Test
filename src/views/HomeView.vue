@@ -73,7 +73,7 @@
         @current-change="flip"
       />
     </div>
-    <div>
+    <!-- <div>
       <el-input
         v-model="username"
         placeholder="请输入用户名"
@@ -88,7 +88,7 @@
       ><br />
       <el-button type="primary" @click="login">登陆</el-button>
       <el-button type="primary" @click="exit">退出</el-button>
-    </div>
+    </div> -->
   </div>
 </template>
 

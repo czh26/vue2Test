@@ -6,7 +6,8 @@
       <router-link to="/mini-ol">mini-ol</router-link> |
       <router-link to="/mapBlock">map-block</router-link> |
       <router-link to="/dynamic">dynamic</router-link> |
-      <router-link to="/measure">measure</router-link> <br />
+      <router-link to="/measure">measure</router-link> |
+      <router-link to="/waterfall">waterfall</router-link> <br />
       <router-link to="/map">map</router-link> |
       <router-link to="/bar">bar</router-link> |
       <router-link to="/line">line</router-link> |
@@ -22,20 +23,20 @@
   </div>
 </template>
 <script>
-import Cookies from 'js-cookie'
-import router from './router'
+// import Cookies from 'js-cookie'
+// import router from './router'
 export default {
   mounted () {
-    const token = Cookies.get('sys_token')
-    if (!token) {
-      this.$notify({
-        title: '请重新登陆',
-        duration: 2000,
-        type: 'error',
-        showClose: true
-      })
-      router.push('/')
-    }
+    // const token = Cookies.get('sys_token')
+    // if (!token) {
+    //   this.$notify({
+    //     title: '请重新登陆',
+    //     duration: 2000,
+    //     type: 'error',
+    //     showClose: true
+    //   })
+    //   router.push('/')
+    // }
   }
 }
 </script>

@@ -36,6 +36,11 @@ const routes = [
     meta: { title: '测量' }
   },
   {
+    path: '/waterfall',
+    component: () => import('../views/waterfall'),
+    meta: { title: '瀑布流' }
+  },
+  {
     path: '/ganGuo',
     component: () => import('../views/fruit'),
     meta: { title: '干鲜果' }
