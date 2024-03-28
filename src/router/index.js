@@ -1,14 +1,21 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/home',
     name: 'home',
-    component: HomeView
+    component: () => import('../views/HomeView.vue'),
+    meta: { title: '首页' },
+    children: [
+      {
+        path: 'performChunk',
+        component: () => import('../views/upGradeJS/performChunk'),
+        meta: { title: '分时函数' }
+      }
+    ]
   },
   {
     path: '/mini-ol',
@@ -37,13 +44,8 @@ const routes = [
   },
   {
     path: '/waterfall',
-    component: () => import('../views/waterfall'),
+    component: () => import('../views/upGradeJS/waterfall'),
     meta: { title: '瀑布流' }
-  },
-  {
-    path: '/ganGuo',
-    component: () => import('../views/fruit'),
-    meta: { title: '干鲜果' }
   },
   {
     path: '/map',
@@ -84,6 +86,18 @@ const routes = [
   {
     path: '/scatter',
     component: () => import('../views/echarts/scatter')
+  },
+  {
+    path: '/drawline',
+    component: () => import('../views/canvas/drawline')
+  },
+  {
+    path: '/graffiti',
+    component: () => import('../views/canvas/graffiti')
+  },
+  {
+    path: '/svg',
+    component: () => import('../views/svg/draw')
   }
 ]
 const router = new VueRouter({

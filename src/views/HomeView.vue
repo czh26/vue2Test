@@ -1,78 +1,9 @@
 <template>
   <div class="home">
-    <el-table :data="pageData">
-      <el-table-column align="center" prop="date" label="日期">
-        <el-table-column sortable align="center" prop="date" label="日期">
-        </el-table-column>
-        <el-table-column align="center" prop="date" label="日期">
-          <el-table-column align="center" prop="name" label="名字">
-          </el-table-column>
-          <el-table-column align="center" prop="address" label="地址">
-          </el-table-column>
-        </el-table-column>
-      </el-table-column>
-    </el-table>
-    <vxe-table :data="data" ref="table">
-      <vxe-table-column
-        field="value"
-        title="测试1"
-        :formatter="formatter"
-        :width="minWidth"
-        align="center"
-      >
-      </vxe-table-column>
-      <vxe-table-column
-        field="value"
-        title="测试2"
-        :formatter="formatter"
-        :width="minWidth"
-        align="center"
-      >
-      </vxe-table-column>
-      <vxe-table-column
-        field="value"
-        title="测试3"
-        :formatter="formatter"
-        :width="minWidth"
-        align="center"
-      >
-      </vxe-table-column>
-      <vxe-table-column
-        field="value"
-        title="测试4"
-        :formatter="formatter"
-        :width="minWidth"
-        align="center"
-      >
-      </vxe-table-column>
-      <vxe-table-column
-        field="value"
-        title="测试5"
-        :formatter="formatter"
-        :width="minWidth"
-        align="center"
-      >
-      </vxe-table-column>
-      <vxe-table-column
-        field="value"
-        title="测试6"
-        :formatter="formatter"
-        :width="minWidth"
-        align="center"
-      >
-      </vxe-table-column>
-    </vxe-table>
-    <div class="block">
-      <el-pagination
-        :current-page.sync="currentPage"
-        background
-        layout="prev, pager, next, jumper"
-        :total="total"
-        :page-size="pageSize"
-        :hide-on-single-page="true"
-        @current-change="flip"
-      />
-    </div>
+    <ol class="list">
+      <li>1.<router-link to="/home/performChunk">分时函数</router-link></li>
+    </ol>
+    <router-view></router-view>
     <!-- <div>
       <el-input
         v-model="username"
@@ -95,86 +26,18 @@
 <script>
 // @ is an alias to /src
 // import Cookies from 'js-cookie'
-import { mapGetters } from 'vuex'
 import Cookies from 'js-cookie'
 export default {
   name: 'HomeView',
-  components: {},
   data () {
     return {
-      form: {
-        tilte: ['全国林业计财报表', '提质增效', '其它'],
-        secendLevel: ['干鲜果生产情况', '农林产值情况', '收购销售情况']
-      },
-      total: null,
-      pageSize: 3,
-      tableData: [
-        {
-          date: '1',
-          name: '王小虎11',
-          address: '上海市普陀区金沙江路 111 弄'
-        },
-        {
-          date: '2',
-          name: '王小虎22',
-          address: '上海市普陀区金沙江路 222 弄'
-        },
-        {
-          date: '3',
-          name: '王小虎33',
-          address: '上海市普陀区金沙江路 333 弄'
-        },
-        {
-          date: '4',
-          name: '王小虎44',
-          address: '上海市普陀区金沙江路 444 弄'
-        },
-        {
-          date: '5',
-          name: '王小虎55',
-          address: '上海市普陀区金沙江路 555 弄'
-        },
-        {
-          date: '6',
-          name: '王小虎66',
-          address: '上海市普陀区金沙江路 666 弄'
-        }
-      ],
-      pageData: [],
-      currentPage: 1,
-      routerList: [
-        {
-          path: '/ganGuo',
-          component: () => import('../views/fruit'),
-          meta: { title: '干鲜果' }
-        }
-      ],
       username: '',
-      password: '',
-      data: [{ value: '测试测试测试测试测试测试测测试测试测' }],
-      minWidth: 150
+      password: ''
     }
   },
-  watch: {
-    minWidth (newValue, oldValue) {
-      // minWidth 属性变化时重新渲染组件
-      this.$nextTick(() => {
-        this.$refs.table.recalculate() // 重新计算表格布局
-      })
-    }
-  },
-  computed: {
-    ...mapGetters(['test']),
-    getter () {
-      return this.test
-    }
-  },
-  created () {
-    this.total = this.tableData.length
-    this.fetchData()
-    // const routes = this.$router.options.routes
-    // this.routerList.push(routes)
-  },
+  watch: {},
+  computed: {},
+  created () {},
   methods: {
     login () {
       const params = {
@@ -198,44 +61,16 @@ export default {
     exit () {
       Cookies.set('sys_token', '')
       Cookies.set('sys_refresh_token', '')
-    },
-    flip (e) {
-      // console.log(e)
-      this.currentPage = e
-      this.pageData = this.queryPage()
-    },
-    async fetchData () {
-      this.pageData = this.queryPage()
-    },
-    queryPage () {
-      const start = (this.currentPage - 1) * this.pageSize
-      const end = this.currentPage * this.pageSize
-      return this.tableData.slice(start, end)
-    },
-    handleOpen (key, keyPath) {},
-    handleClose (key, keyPath) {},
-    handleSelect () {
-      console.log(this.routerList.meta)
-      this.$router.push({ path: this.routerList[0].path })
-    },
-    formatter (row) {
-      // console.log(title: row.column.title, field: row.cellValue)
-      //  动态计算minWidth
-      this.minWidth = 350
-      return row.cellValue
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-.block {
-  margin: 40px 0;
-}
-.vxe-table {
-  width: 100%;
-}
-:deep(.vxe-body--column) {
-  // width: 20rem;
-  white-space: normal;
+.list {
+  font-size: 30px;
+  color: #74b9ff;
+  a {
+    color: #74b9ff;
+  }
 }
 </style>

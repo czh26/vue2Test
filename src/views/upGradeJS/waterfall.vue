@@ -71,6 +71,10 @@ export default {
           url: 'https://t7.baidu.com/it/u=188814329,824868390&fm=193&f=GIF',
           text: '测试测试测试测试测试测试测试'
         }
+        // {
+        //   url: 'https://img2.baidu.com/it/u=4008347389,3125301929&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=889',
+        //   text: '测试测试测试测试测试测试测试'
+        // }
       ],
       waterFallList: [],
       colStyle: {
