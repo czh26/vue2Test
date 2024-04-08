@@ -1,23 +1,14 @@
 <template>
   <div>
     <div id="wrap" class="wrap">
-      <canvas
-        class="canvas"
-        ref="myCanvas"
-        width="1000"
-        height="550"
-        @mousedown="listenerDown"
-        @mousemove="listenerMove"
-        @mouseup="listenerUp"
-      ></canvas>
-    </div>
-    <div>
+      <div>
       <button @click="listenerStatus = 'pencil'">使用画笔</button>
       <button @click="listenerStatus = 'eraser'">使用橡皮擦</button>
       <button @click="undo()">撤销</button>
       <button @click="redo()">重做</button>
       <button @click="clear()">清空</button>
       <button @click="inputText()">输入文字</button>
+      <button @click="save()">保存</button>
       <select v-model="lineWidth" style="width: 50px; height: 30px">
         <option
           v-for="item in lineSize"
@@ -26,6 +17,19 @@
           :value="item"
         ></option>
       </select>
+    </div>
+      <canvas
+        class="canvas"
+        ref="myCanvas"
+        width="1300"
+        height="730"
+        @mousedown="listenerDown"
+        @mousemove="listenerMove"
+        @mouseup="listenerUp"
+        @touchstart="listenerDown"
+        @touchmove="listenerMove"
+        @touchend="listenerUp"
+      ></canvas>
     </div>
   </div>
 </template>
@@ -42,8 +46,6 @@ export default {
       bgCanvas: null,
       isDrawing: false,
       isDragging: false,
-      eraserMode: false,
-      isEraser: false,
       drawingStack: [],
       currentPath: [],
       redoHistory: [],
@@ -77,6 +79,26 @@ export default {
     this.initializeCanvas()
   },
   methods: {
+    save () {
+      const img = new Image()
+      img.onload = () => {
+        // 创建临时的canvas元素
+        const tempCanvas = document.createElement('canvas')
+        const tempCtx = tempCanvas.getContext('2d')
+        tempCanvas.width = 1300
+        tempCanvas.height = 730
+
+        // 顺时针旋转画布90度
+        tempCtx.rotate(Math.PI / 2)
+        // drawImage(图片,x轴偏移量,y轴偏移量,宽度,高度)
+        tempCtx.drawImage(img, 0, -1300, 730, 1300)
+        // 转为base64图片
+        const tempBase64Data = tempCanvas.toDataURL()
+        console.log(tempBase64Data)
+        tempCtx.clearRect(0, 0, tempCanvas.width, tempCanvas.height)
+      }
+      img.src = this.drawingStack[this.currentNum]
+    },
     // 初始化画板
     initializeCanvas () {
       this.canvas = this.$refs.myCanvas
@@ -86,6 +108,21 @@ export default {
       this.ctx.fillStyle = this.fillStyle
       this.ctx.lineWidth = this.lineWidth
       this.drawingStack.push(this.canvas.toDataURL())
+      // const imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height)
+      // console.log('🚀 ~ initializeCanvas ~ imageData:', imageData)
+      // this.canvas.addEventListener('touchstart', function (event) {
+      //   // 检查是否有两个触摸点
+      //   if (event.touches.length === 2) {
+      //   // 输出消息
+      //     // alert('12312')
+      //   }
+      // })
+      // const img = new Image()
+      // img.onload = () => {
+      //   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+      //   this.ctx.drawImage(img, 0, 0)
+      // }
+      // img.src = this.drawingStack[this.currentNum]
     },
     // 监听鼠标落下
     listenerDown (e) {
@@ -124,6 +161,8 @@ export default {
     },
     // 铅笔落下
     drawPencilDown (e) {
+      // e.preventDefault()
+
       this.ctx.lineJoin = 'round'
       this.ctx.lineCap = 'round'
       this.isDrawing = true
@@ -153,6 +192,7 @@ export default {
       const controlY = (this.lastY + this.getMouseY(e)) / 2
       // 使用二次贝塞尔曲线绘制
       this.ctx.quadraticCurveTo(this.lastX, this.lastY, controlX, controlY)
+      // this.ctx.lineTo(this.getMouseX(e), this.getMouseY(e))
       this.ctx.stroke()
       this.lastX = controlX
       this.lastY = controlY
@@ -160,10 +200,10 @@ export default {
     // 铅笔抬起
     drawPencilUp (e) {
       if (this.isDrawing) {
+        this.drawingStack.splice(this.currentNum + 1)
         this.drawingStack.push(this.canvas.toDataURL())
         this.currentNum = this.drawingStack.length - 1
       }
-      console.log(this.drawingStack)
       this.isDrawing = false
     },
     // 橡皮落下
@@ -189,14 +229,18 @@ export default {
         // 移除已经画好的输入框
         this.wrap.removeChild(this.textarea)
         // 绘制输入框内的文字
-        this.drawWrappedText(this.textarea.value, this.textX + 2, this.textY + 19, this.textWidth, 24)
+        this.drawWrappedText(
+          this.textarea.value,
+          this.textX + 2,
+          this.textY + 19,
+          this.textWidth,
+          24
+        )
       }
-      // this.textX = 0
-      // this.textY = 0
-      // this.textWidth = 0
-      // this.textHeight = 0
       this.textX = this.getMouseX(e)
+      console.log('🚀 ~ drawTextDown ~ this.textX:', this.textX)
       this.textY = this.getMouseY(e)
+      console.log('🚀 ~ drawTextDown ~ this.textY:', this.textY)
 
       // 创建 textarea 元素
       this.textarea = document.createElement('textarea')
@@ -245,8 +289,7 @@ export default {
       if (this.currentNum > 0) {
         this.currentNum -= 1
       } else {
-        console.log('到底了')
-        return
+        console.log('撤销到头了')
       }
       const img = new Image()
       img.onload = () => {
@@ -254,6 +297,7 @@ export default {
         this.ctx.drawImage(img, 0, 0)
       }
       img.src = this.drawingStack[this.currentNum]
+      // this.drawingStack.splice(this.currentNum + 1)
     },
     // 重做
     redo () {
@@ -261,7 +305,7 @@ export default {
       if (this.currentNum < this.drawingStack.length - 1) {
         this.currentNum += 1
       } else {
-        console.log('到头了')
+        console.log('恢复到头了')
         return
       }
       const img = new Image()
@@ -319,8 +363,8 @@ export default {
 </script>
 <style lang="scss">
 .wrap {
-  width: 1000px;
-  height: 550px;
+  width: 1300px;
+  height: 730px;
   margin: 0 auto;
   position: relative;
   .textarea {
@@ -329,7 +373,7 @@ export default {
   }
   .canvas {
     border: 1px solid #000;
-    background-image: url("https://qsh-cdn.bj.bcebos.com/xjmy/admin/horseInfo/apperence.png");
+    background-image: url("https://qsh-cdn.bj.bcebos.com/xjmy/admin/horseInfo/apperence.svg");
     background-size: 100% 100%;
     position: absolute;
     left: 0;

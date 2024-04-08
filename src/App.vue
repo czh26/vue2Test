@@ -19,7 +19,7 @@
       <router-link to="/wordcloud">wordcloud</router-link> |
       <router-link to="/funnel">funnel</router-link> <br />
       <router-link to="/drawline">drawline</router-link> |
-      <router-link to="/graffiti">graffiti</router-link> <br />
+      <router-link to="/graffiti">mobile-drawline</router-link> <br />
       <router-link to="/svg">svg</router-link>
     </nav>
     <el-breadcrumb class="breadcrumb" separator-class="el-icon-arrow-right">
